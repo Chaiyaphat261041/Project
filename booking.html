@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดต่อจองที่พัก - KK Booking</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .booking-form-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Kanit', sans-serif;
+        }
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            height: 350px;
+            margin-top: 10px;
+        }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
+        .btn-submit {
+            background-color: #28a745; color: white; border: none; padding: 15px;
+            width: 100%; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: 600;
+            transition: 0.3s; margin-top: 10px;
+        }
+        .btn-submit:hover { background-color: #218838; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">KK Booking</div>
+        <ul class="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="report.html">แจ้งปัญหา</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="booking-form-container">
+            <h2 style="text-align: center; margin-bottom: 30px;">🏠 แบบฟอร์มจองที่พัก</h2>
+            
+            <div class="form-grid">
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label>เลือกที่พัก</label>
+                        <select id="hotelName" onchange="updateMap()" required>
+                            <option value="Mammoth Resort" data-map="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.458763750059!2d102.82565457590442!3d16.40153833051413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228a0709eb0965%3A0x707bebadb6bd901e!2sMammoth%20Resort!5e0!3m2!1sth!2sth!4v1700000000000">Mammoth Resort</option>
+                            <option value="Nadee 10 Resort & Hotel" data-map="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.702061618037!2d102.81599417590412!3d16.389182330855266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x312289f181143a25%3A0x125a90134c1b4909!2sNadee%2010%20Resort%20%26%20Hotel!5e0!3m2!1sth!2sth!4v1700000000001">Nadee 10 Resort & Hotel</option>
+                            <option value="อิงดาว รีสอร์ด" data-map="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.424355598686!2d102.86872587590439!3d16.40328223046594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228474c43562cb%3A0x6c7e04e40d5e219d!2sIng%20Dow%20Resort!5e0!3m2!1sth!2sth!4v1700000000002">อิงดาว รีสอร์ด</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ชื่อ-นามสกุล ผู้จอง</label>
+                        <input type="text" id="guestName" placeholder="กรอกชื่อของคุณ" required>
+                    </div>
+                    <div class="form-group">
+                        <label>เบอร์โทรศัพท์ติดต่อ</label>
+                        <input type="tel" id="guestPhone" placeholder="08X-XXX-XXXX" required>
+                    </div>
+                    <button type="submit" class="btn-submit">ยืนยันข้อมูลและส่งจอง</button>
+                </form>
+
+                <div>
+                    <label style="font-weight: 600; color: #333;">📍 แผนที่ที่พัก:</label>
+                    <div class="map-container">
+                        <iframe id="hotelMap" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.458763750059!2d102.82565457590442!3d16.40153833051413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228a0709eb0965%3A0x707bebadb6bd901e!2sMammoth%20Resort!5e0!3m2!1sth!2sth!4v1700000000000"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase Configuration (ของคุณ)
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4h28pZMMjCe6rfGp0N4szWZNoAlll-IY",
+            authDomain: "mini-project-37403.firebaseapp.com",
+            projectId: "mini-project-37403",
+            storageBucket: "mini-project-37403.firebasestorage.app",
+            messagingSenderId: "167901415518",
+            appId: "1:167901415518:web:1ade1db1debdf7d1244ccf"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ฟังก์ชันอัปเดตแผนที่
+        window.updateMap = function() {
+            const select = document.getElementById('hotelName');
+            const selectedOption = select.options[select.selectedIndex];
+            const mapUrl = selectedOption.getAttribute('data-map');
+            document.getElementById('hotelMap').src = mapUrl;
+        };
+
+        // ตรวจสอบค่าที่ส่งมาจากหน้าแรก (URL Parameter)
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hotelParam = urlParams.get('hotel');
+            const hotelSelect = document.getElementById('hotelName');
+
+            if (hotelParam) {
+                if (hotelParam === 'mammoth') hotelSelect.value = "Mammoth Resort";
+                if (hotelParam === 'nadee') hotelSelect.value = "Nadee 10 Resort & Hotel";
+                if (hotelParam === 'ingdow') hotelSelect.value = "อิงดาว รีสอร์ด";
+                updateMap();
+            }
+        };
+
+        // บันทึกข้อมูลลง Firestore
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const hotel = document.getElementById('hotelName').value;
+            const name = document.getElementById('guestName').value;
+            const phone = document.getElementById('guestPhone').value;
+
+            try {
+                await addDoc(collection(db, "bookings"), {
+                    hotelName: hotel,
+                    guestName: name,
+                    guestPhone: phone,
+                    timestamp: serverTimestamp()
+                });
+                alert("จองสำเร็จ! ข้อมูลถูกบันทึกลงระบบแล้ว");
+                document.getElementById('bookingForm').reset();
+            } catch (error) {
+                alert("เกิดข้อผิดพลาด: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+/* ตั้งค่าพื้นฐาน */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    color: white;
+    padding: 1rem 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #3498db;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+/* Grid System สำหรับที่พัก */
+.section-title {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.hotel-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* บนมือถือแสดง 1 คอลัมน์ */
+    gap: 25px;
+}
+
+/* Hotel Card Design */
+.hotel-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.hotel-card:hover {
+    transform: translateY(-5px);
+}
+
+.hotel-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.hotel-info {
+    padding: 20px;
+}
+
+.price {
+    color: #e67e22;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Buttons */
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-map { background: #ecf0f1; color: #2c3e50; }
+.btn-book { background: #27ae60; color: white; }
+
+/* --- Responsive Design (Media Queries) --- */
+
+/* สำหรับ Tablet (หน้าจอ 768px ขึ้นไป) */
+@media (min-width: 768px) {
+    .hotel-grid {
+        grid-template-columns: repeat(2, 1fr); /* แสดง 2 คอลัมน์ */
+    }
+}
+
+/* สำหรับ Desktop (หน้าจอ 1024px ขึ้นไป) */
+@media (min-width: 1024px) {
+    .hotel-grid {
+        grid-template-columns: repeat(3, 1fr); /* แสดง 3 คอลัมน์ */
+    }
+    .hero {
+        height: 60vh;
+    }
+}
+
+/* สไตล์เพิ่มเติมสำหรับ Form */
+.report-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Kanit', sans-serif;
+}
+
+.active {
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+/* สไตล์หน้าจอง */
+.booking-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.booking-card {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.booking-card hr {
+    margin: 20px 0;
+    border: 0.5px solid #eee;
+}
+
+.contact-options {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-btn {
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.contact-btn.phone {
+    background-color: #3498db;
+    color: white;
+}
+
+.contact-btn.line {
+    background-color: #00b900;
+    color: white;
+}
+
+.contact-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+.btn-back {
+    margin-top: 25px;
+    background: none;
+    color: #888;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.note {
+    font-size: 0.8rem;
+    color: #e67e22;
+    margin-top: 15px;
+}
+
+.booking-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.booking-summary-card {
+    background: #fff;
+    width: 100%;
+    max-width: 550px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.selected-hotel-box {
+    background: #f8f9fa;
+    border-left: 5px solid #27ae60;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.selected-hotel-box h3 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.booking-form {
+    margin-top: 25px;
+}
+
+.contact-methods {
+    margin-top: 30px;
+}
+
+.btn-confirm {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-confirm.line { background: #00b900; color: white; }
+.btn-confirm.call { background: #3498db; color: white; }
+
+.btn-confirm:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.text-center { text-align: center; }
+.disclaimer { font-size: 0.8rem; color: #7f8c8d; margin-top: 20px; text-align: center; }
+
+
+/*map*/
+.map-page-container {
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.google-map-wrapper {
+    width: 100%;
+    height: 450px; /* ปรับความสูงแผนที่ */
+    margin: 20px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.google-map-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.map-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .google-map-wrapper {
+        height: 300px;
+    }
+    .map-actions {
+        flex-direction: column;
+    }
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+}
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}

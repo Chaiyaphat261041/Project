@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แจ้งปัญหา - KK Booking</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <script scr="https://cdn.tailwind.com"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">KK Booking</div>
+        <ul class="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="report.html" class="active">แจ้งปัญหา</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="report-box">
+    <h2>แจ้งปัญหาการใช้งาน / พบปัญหาที่พัก</h2>
+    <p>ข้อมูลจะถูกส่งไปยังอีเมลของเจ้าหน้าที่โดยตรง</p>
+    
+    <form action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="7640e1a4-0163-4554-9ef7-340540563a86">>
+        <div class="form-group">
+            <label>ชื่อ-นามสกุล</label>
+            <input type="text" name="name" id="reporter-name" placeholder="ระบุชื่อของคุณ" required>
+        </div>
+        <div class="form-group">
+            <label>อีเมลติดต่อกลับ</label>
+            <input type="email" name="_replyto" placeholder="email@example.com" required>
+        </div>
+        <div class="form-group">
+            <label>หัวข้อปัญหา</label>
+            <select name="subject" id="report-subject">
+                <option value="ปัญหาการจอง">ปัญหาการจอง</option>
+                <option value="ปัญหาการชำระเงิน">ปัญหาการชำระเงิน</option>
+                <option value="ข้อมูลไม่ถูกต้อง">ข้อมูลไม่ถูกต้อง</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>รายละเอียด</label>
+            <textarea name="message" id="report-detail" rows="5" placeholder="อธิบายปัญหา..." required></textarea>
+        </div>
+        
+        <input type="text" name="_gotcha" style="display:none">
+        
+        <button type="submit" class="btn-book">ส่งข้อมูลเข้าอีเมลเจ้าหน้าที่</button>
+    </form>
+</section>

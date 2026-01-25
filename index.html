@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KK Booking - ที่พักขอนแก่น</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">KK Booking</div>
+        <ul class="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="#">ข้อมูลที่พัก</a></li>
+            <li><a href="report.html">แจ้งปัญหา</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>ค้นหาที่พักใจกลางเมืองขอนแก่น</h1>
+        <p>ราคาดีที่สุด ติดต่อจองง่าย ได้ห้องชัวร์</p>
+    </header>
+
+    <main class="container">
+        <h2 class="section-title">ที่พักแนะนำ</h2>
+        <div class="hotel-grid" id="hotel-display">
+            <div class="hotel-card">
+                <div class="hotel-image">
+                    <img src="mammoth.jpg" alt="ที่พัก">
+                </div>
+                <div class="hotel-info">
+                    <h3>Mammoth Resort</h3>
+                    <p class="price">ราคา: ฿700+ / คืน</p>
+                    <p class="location">📍 ใกล้สถานีรถไฟขอนแก่น</p>
+                    <div class="actions">
+                        <button onclick="window.location.href='booking.html?hotel=mammoth'" class="btn-book">ติดต่อการจอง</button>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="hotel-card">
+                <div class="hotel-image">
+                    <img src="Nadee10-203.jpg" alt="ที่พัก">
+                </div>
+                <div class="hotel-info">
+                    <h3>Nadee 10 Resort & Hotel</h3>
+                    <p class="price">ราคา: ฿1,000+ / คืน</p>
+                    <p class="location">📍 ใกล้สถานีรถไฟขอนแก่น</p>
+                    <div class="actions">
+                        <button onclick="window.location.href='booking.html?hotel=nadee'"class="btn-book">ติดต่อการจอง</button>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="hotel-card">
+                <div class="hotel-image">
+                    <img src="ingdow.jpg" alt="ที่พัก">
+                </div>
+                <div class="hotel-info">
+                    <h3>อิงดาว รีสอร์ด</h3>
+                    <p class="price">ราคา: ฿400+ / คืน</p>
+                    <p class="location">📍 ทางถนนเลี้ยงเมือง</p>
+                    <div class="actions">
+                        <button onclick="window.location.href='booking.html?hotel=ingdow'"class="btn-book">ติดต่อการจอง</button>
+                    </div>
+                </div>
+                
+            </div>
+            </div>
+    </main>
+
+</body>
+</html>
