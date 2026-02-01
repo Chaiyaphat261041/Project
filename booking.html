@@ -87,67 +87,118 @@
                 </div>
             </div>
         </div>
+        <div class="booking-list-container">
+            <h3 style="text-align: center;">📊 รายการจองล่าสุด</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ที่พัก</th>
+                        <th>ชื่อผู้จอง</th>
+                        <th>เบอร์โทรศัพท์</th>
+                        <th>วันที่จอง</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingData">
+                    </tbody>
+            </table>
+        </div>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+        getFirestore, 
+        collection, 
+        addDoc, 
+        serverTimestamp, 
+        query, 
+        orderBy, 
+        onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase Configuration (ของคุณ)
-        const firebaseConfig = {
-            apiKey: "AIzaSyA4h28pZMMjCe6rfGp0N4szWZNoAlll-IY",
-            authDomain: "mini-project-37403.firebaseapp.com",
-            projectId: "mini-project-37403",
-            storageBucket: "mini-project-37403.firebasestorage.app",
-            messagingSenderId: "167901415518",
-            appId: "1:167901415518:web:1ade1db1debdf7d1244ccf"
-        };
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyA4h28pZMMjCe6rfGp0N4szWZNoAlll-IY",
+        authDomain: "mini-project-37403.firebaseapp.com",
+        projectId: "mini-project-37403",
+        storageBucket: "mini-project-37403.firebasestorage.app",
+        messagingSenderId: "167901415518",
+        appId: "1:167901415518:web:1ade1db1debdf7d1244ccf"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        // ฟังก์ชันอัปเดตแผนที่
-        window.updateMap = function() {
-            const select = document.getElementById('hotelName');
-            const selectedOption = select.options[select.selectedIndex];
-            const mapUrl = selectedOption.getAttribute('data-map');
-            document.getElementById('hotelMap').src = mapUrl;
-        };
+    // --- 1. ส่วนการดึงข้อมูลมาแสดงผล (เพิ่มส่วนนี้เข้าไป) ---
+    const bookingDataContainer = document.getElementById('bookingData');
 
-        // ตรวจสอบค่าที่ส่งมาจากหน้าแรก (URL Parameter)
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const hotelParam = urlParams.get('hotel');
-            const hotelSelect = document.getElementById('hotelName');
+    // สร้าง Query เพื่อดึงข้อมูล เรียงจากใหม่ไปเก่า
+    const q = query(collection(db, "bookings"), orderBy("timestamp", "desc"));
 
-            if (hotelParam) {
-                if (hotelParam === 'mammoth') hotelSelect.value = "Mammoth Resort";
-                if (hotelParam === 'nadee') hotelSelect.value = "Nadee 10 Resort & Hotel";
-                if (hotelParam === 'ingdow') hotelSelect.value = "อิงดาว รีสอร์ด";
-                updateMap();
-            }
-        };
-
-        // บันทึกข้อมูลลง Firestore
-        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const hotel = document.getElementById('hotelName').value;
-            const name = document.getElementById('guestName').value;
-            const phone = document.getElementById('guestPhone').value;
-
-            try {
-                await addDoc(collection(db, "bookings"), {
-                    hotelName: hotel,
-                    guestName: name,
-                    guestPhone: phone,
-                    timestamp: serverTimestamp()
-                });
-                alert("จองสำเร็จ! ข้อมูลถูกบันทึกลงระบบแล้ว");
-                document.getElementById('bookingForm').reset();
-            } catch (error) {
-                alert("เกิดข้อผิดพลาด: " + error.message);
-            }
+    // ติดตามการเปลี่ยนแปลงข้อมูลแบบ Real-time
+    onSnapshot(q, (querySnapshot) => {
+        bookingDataContainer.innerHTML = ""; // ล้างข้อมูลเก่า
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            // จัดการเรื่องวันที่
+            const date = data.timestamp ? data.timestamp.toDate().toLocaleString('th-TH') : 'กำลังบันทึก...';
+            
+            const row = `
+                <tr>
+                    <td>${data.hotelName}</td>
+                    <td>${data.guestName}</td>
+                    <td>${data.guestPhone}</td>
+                    <td>${date}</td>
+                </tr>
+            `;
+            bookingDataContainer.innerHTML += row;
         });
-    </script>
+    }, (error) => {
+        console.error("Error fetching bookings: ", error);
+        // หากข้อมูลไม่ขึ้น และมี error เกี่ยวกับ index ให้ดูที่ Console ของ Browser (กด F12)
+    });
+
+    // --- 2. ส่วนบันทึกข้อมูล (มีอยู่แล้ว) ---
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const hotel = document.getElementById('hotelName').value;
+        const name = document.getElementById('guestName').value;
+        const phone = document.getElementById('guestPhone').value;
+
+        try {
+            await addDoc(collection(db, "bookings"), {
+                hotelName: hotel,
+                guestName: name,
+                guestPhone: phone,
+                timestamp: serverTimestamp()
+            });
+            alert("จองสำเร็จ!");
+            document.getElementById('bookingForm').reset();
+        } catch (error) {
+            alert("เกิดข้อผิดพลาด: " + error.message);
+        }
+    });
+
+    // --- 3. ฟังก์ชันอัปเดตแผนที่ ---
+    window.updateMap = function() {
+        const select = document.getElementById('hotelName');
+        const selectedOption = select.options[select.selectedIndex];
+        const mapUrl = selectedOption.getAttribute('data-map');
+        document.getElementById('hotelMap').src = mapUrl;
+    };
+
+    // --- 4. ตรวจสอบ URL Parameter ---
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hotelParam = urlParams.get('hotel');
+        const hotelSelect = document.getElementById('hotelName');
+        if (hotelParam) {
+            if (hotelParam === 'mammoth') hotelSelect.value = "Mammoth Resort";
+            if (hotelParam === 'nadee') hotelSelect.value = "Nadee 10 Resort & Hotel";
+            if (hotelParam === 'ingdow') hotelSelect.value = "อิงดาว รีสอร์ด";
+            updateMap();
+        }
+    };
+</script>
 </body>
 </html>
